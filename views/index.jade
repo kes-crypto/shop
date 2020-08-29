@@ -1,0 +1,85 @@
+doctype html(lang='en')
+head
+    meta(charset='UTF-8')
+    |     
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    |     
+    title Baraka Shop
+    |     
+    link(rel='stylesheet', href='/css/postershop.css')
+    link(rel='stylesheet', href='/css/footer.css')
+  body
+    .container
+      .nav-bar
+        h2
+          center Baraka Shop
+      |         
+      .leftside
+        .products
+          .product(v-for='product in products', v-bind:key='product.id')
+            div
+              .product-image
+                img.product-image(v-bind:src='product.thumb', alt='no image')
+            |                     
+            div
+              .card-data
+                h4.product-title {{product.title}} 
+                |                             
+                p.product-price
+                  strong {{product.price | currency}}
+                |                             
+                p.product-description {{product.info}}
+                |                             
+                button.btn(@click='addToCart(product)') Add to Cart
+      |         
+      .rightside
+       form(method='POST', action='index/send')
+        h3 shopping cart
+        |             
+        ul
+          li.cart-item(name='cart',v-for='item in  cart', v-bind:key='item.id')
+            | {{item.title}}
+            br
+            |                 
+            span.item-qty {{item.price | currency}} * {{item.qty}}
+            |                 
+            button.add-in-cart(@click='inc(item)') +
+            |                 
+            button.remove-from-cart(@click='dec(item)') -
+        |             
+        .cart(v-if='cart.length' name='total')
+          .cart-total Total:{{total | currency}}
+          br
+          br
+          |                 
+          span.head Contact Information
+          |                 
+          
+          label(for='place') Delivery address
+            |                     
+            input#place(name='address', type='text', placeholder='Delivery address' required)
+            br
+            br
+            |                     
+            label(for='contact') Contact Information
+            |                     
+            input#phone(name='number', type='text', placeholder='Phone Number' required)
+            br
+            br
+            |                     
+            button.btn(type='submit') Buy
+        |             
+        .not(v-else='') No items bought yet.
+    |   
+    footer
+      form(method='POST', action='index/send')
+       p.text Sign up to receive special offers and updates. (Optional) 
+       br
+       input(name='mail', type='text')
+       input(type='submit' value="Sign Up")
+    script(src='/js/vue.js')
+    |     
+    script(src='/js/postershop.js')
+    // ===== SCROLL REVEAL =====
+    script(src='https://unpkg.com/scrollreveal')
+    
